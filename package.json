@@ -1,22 +1,25 @@
 {
-  "name": "electron-quick-start",
+  "name": "electron-snap",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "An Electron Snap",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder --linux snap"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/ymkapuriya/electron-snap",
   "keywords": [
     "Electron",
     "quick",
     "start",
     "tutorial",
-    "demo"
+    "demo",
+    "snap"
   ],
-  "author": "GitHub",
+  "author": "Yogesh Kapuriya",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^22.0.0"
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0"
   }
 }
