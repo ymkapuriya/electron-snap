@@ -51,7 +51,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('list-networks', async (_event, data) => {
-    exec("nmcli dev wifi list", (error, stdout, stderr) => {
+    exec("nmcli device wifi connect asvn password 'asvn1234'", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return;
