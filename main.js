@@ -51,7 +51,16 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('list-networks', async (_event, data) => {
-    exec("nmcli device wifi connect asvn password 'asvn1234'", (error, stdout, stderr) => {
+    try {
+      const networks = await Wifi(data)
+      console.log("main networkds", networks);
+    } catch (error) {
+      console.error("main error", error)
+    }
+  })
+
+  ipcMain.handle('run-command', async (_event, data) => {
+    exec(data, (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -62,12 +71,6 @@ app.whenReady().then(() => {
       }
       console.log(`stdout: ${stdout}`);
     });
-    try {
-      const networks = await Wifi(data)
-      console.log("main networkds", networks);
-    } catch (error) {
-      console.error("main error", error)
-    }
   })
 })
 

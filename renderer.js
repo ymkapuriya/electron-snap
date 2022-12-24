@@ -12,21 +12,29 @@
 // const button = document.getElementById('send');
 // button.addEventListener('click', sayHi);
 
+/*
+document.getElementById('scan-networks')
+  .addEventListener('click', async () => {
+    const iface = await window.API.scanNetworks()
+    console.log("Renderer", iface)
+    document.getElementById('interface').innerText = iface
+  })
 
-const btnScan = document.getElementById('scan-networks');
-const scan = async () => {
-  const iface = await window.API.scanNetworks()
-  console.log("Renderer", iface)
-  document.getElementById('interface').innerText = iface
-}
-btnScan.addEventListener('click', scan)
+document.getElementById('list-networks')
+  .addEventListener('click', async () => {
+    const iface = document.getElementById('selected-interface').value
+    console.log(iface);
+    const networks = await window.API.listNetworks(iface)
+    console.log("Renderer", networks)
+    // document.getElementById('networks').innerText = iface
+  })
+  */
 
-const btnList = document.getElementById('list-networks');
-const list = async () => {
-  const iface = document.getElementById('selected-interface').value
-  console.log(iface);
-  const networks = await window.API.listNetworks(iface)
-  console.log("Renderer", networks)
-  // document.getElementById('networks').innerText = iface
-}
-btnList.addEventListener('click', list)
+//run command
+document.getElementById('run-command')
+  .addEventListener('click', async function () {
+    const command = document.getElementById('command').value
+    console.log("Begin : ", command);
+    await window.API.runCommand(command)
+    console.log("Done : ############");
+  })

@@ -31,5 +31,9 @@ contextBridge.exposeInMainWorld(
 
     listNetworks: (args) => {
       return ipcRenderer.invoke('list-networks', args)
+    },
+
+    runCommand: (args) => {
+      return ipcRenderer.invoke('run-command', args)
     }
   });
