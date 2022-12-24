@@ -13,36 +13,40 @@ const wpa_cli2 = {
 };
 
 const Wifi = async (iface) => {
-  console.log('list networks');
-  const networks = await wpa_cli2.list_networks(iface);
-  console.log('networks', networks);
-  return;
-  console.log('adding network...');
-  const response = await wpa_cli2.add_network(iface);
-  const networkId = response.result;
-  console.log('networkId=', networkId);
-  console.log('set ssid');
-  await wpa_cli2.set_network(iface, networkId, 'ssid', `'"asvn"'`);
-  console.log('set psk');
-  await wpa_cli2.set_network(iface, networkId, 'psk', `'"asvn1910"'`);
-  console.log('select network');
-  await wpa_cli2.select_network(iface, networkId);
-  const handle = setInterval(async () => {
-    const response = await wpa_cli2.status(iface);
-    if (response.wpa_state === 'COMPLETED') {
-      console.log('connected succesfully.');
-      clearInterval(handle);
-      console.log('enable network all');
-      await wpa_cli2.enable_network(iface, 'all');
-      console.log('save config');
-      await wpa_cli2.save_config(iface);
-      return;
-    }
-    console.log('not yet connected.');
-  }, 1000);
-  // setTimeout(async () => {
+  try {
+    console.log('list networks');
+    const networks = await wpa_cli2.list_networks(iface);
+    console.log('networks found : ', networks);
+    return networks
+    console.log('adding network...');
+    const response = await wpa_cli2.add_network(iface);
+    const networkId = response.result;
+    console.log('networkId=', networkId);
+    console.log('set ssid');
+    await wpa_cli2.set_network(iface, networkId, 'ssid', `'"asvn"'`);
+    console.log('set psk');
+    await wpa_cli2.set_network(iface, networkId, 'psk', `'"asvn1910"'`);
+    console.log('select network');
+    await wpa_cli2.select_network(iface, networkId);
+    const handle = setInterval(async () => {
+      const response = await wpa_cli2.status(iface);
+      if (response.wpa_state === 'COMPLETED') {
+        console.log('connected succesfully.');
+        clearInterval(handle);
+        console.log('enable network all');
+        await wpa_cli2.enable_network(iface, 'all');
+        console.log('save config');
+        await wpa_cli2.save_config(iface);
+        return;
+      }
+      console.log('not yet connected.');
+    }, 1000);
+    // setTimeout(async () => {
 
-  // }, 1000);
+    // }, 1000);
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 module.exports = { Wifi }

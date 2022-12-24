@@ -49,7 +49,12 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('list-networks', async (_event, data) => {
-    Wifi(data)
+    try {
+      const networks = await Wifi(data)
+      console.log("main networkds", networks);
+    } catch (error) {
+      console.error("main error", error)
+    }
   })
 })
 
