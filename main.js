@@ -4,6 +4,8 @@ const path = require('path')
 
 const { WirelessTools } = require('./src/wireless-tools')
 const { Wifi } = require('./src/wifi')
+const { exec } = require("child_process");
+
 
 function createWindow() {
   //preload path
@@ -49,6 +51,17 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('list-networks', async (_event, data) => {
+    exec("nmcli dev wifi list", (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    });
     try {
       const networks = await Wifi(data)
       console.log("main networkds", networks);
