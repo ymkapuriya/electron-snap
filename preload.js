@@ -15,3 +15,21 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+const { contextBridge, ipcRenderer } = require('electron')
+
+contextBridge.exposeInMainWorld(
+  'API',
+  {
+    toMain: (args) => {
+      ipcRenderer.invoke('toMain', args)
+    },
+
+    scanNetworks: (args) => {
+      return ipcRenderer.invoke('scan-networks', args)
+    },
+
+    listNetworks: (args) => {
+      return ipcRenderer.invoke('list-networks', args)
+    }
+  });

@@ -1,14 +1,21 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
-function createWindow () {
+const { WirelessTools } = require('./src/wireless-tools')
+const { Wifi } = require('./src/wifi')
+
+function createWindow() {
+  //preload path
+  const preloadScriptPath = path.join(__dirname, 'preload.js');
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: preloadScriptPath,
+      contextIsolation: true,
     }
   })
 
@@ -16,7 +23,11 @@ function createWindow () {
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
+
+  ipcMain.handle('toMain', async function toMain(_event, data) {
+    console.log('data', data);
+  })
 }
 
 // This method will be called when Electron has finished
@@ -29,6 +40,16 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+  ipcMain.handle('scan-networks', async (_event, data) => {
+    const iface = await WirelessTools.getWirelessInterface()
+    console.log("Main : ", iface);
+    return iface
+  })
+
+  ipcMain.handle('list-networks', async (_event, data) => {
+    Wifi(data)
   })
 })
 

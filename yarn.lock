@@ -1538,6 +1538,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
+"wireless-tools@https://github.com/ymkapuriya/wireless-tools":
+  version "0.1.0"
+  resolved "https://github.com/ymkapuriya/wireless-tools#a1c2617d2b5edfaed1a6308384ca63548af657b8"
+
 wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
