@@ -2,13 +2,27 @@ import GPIO from "rpi-gpio";
 const gpiop = GPIO.promise;
 
 export const PIN_RED = 36;
-export const PIN_GREEN = 38;
-export const PIN_BLUE = 40;
+export const PIN_ORANGE = 38;
+export const PIN_GREEN = 40;
 
-// blinkFlag: true;
-// blinkInterval: null;
+//Holds pin number by color
+export const PINS = {
+  red: PIN_RED,
+  orange: PIN_ORANGE,
+  green: PIN_GREEN,
+};
 
-setup = async () => {
+export const BLINK_INTERVAL = 300; //in ms
+
+/**
+ * Holds value (true or false) which was last applied during blink cycle.
+ */
+export let curBlinkValue;
+
+//Holds setInterval() handle, for the last flash.
+export let blinkHandle;
+
+export const setup = async () => {
   await gpiop.setup(PIN_RED, gpiop.DIR_LOW);
   await gpiop.setup(PIN_GREEN, gpiop.DIR_LOW);
   await gpiop.setup(PIN_BLUE, gpiop.DIR_LOW);
@@ -28,6 +42,33 @@ export const on = async (pin) => {
 export const off = async (pin) => {
   await gpiop.write(pin, false);
   console.log(`off: done. pin=${pin}`);
+};
+
+export const setStatus = async (color, blink) => {
+  const pin = PINS[color];
+  if (!pin) {
+    throw new Error("Invalid color. No pin defined for this color");
+  }
+
+  //cancel any existing flash interval
+  blinkHandle && clearInterval(blinkHandle);
+  blinkHandle = undefined;
+
+  //turn off all leds
+  for (const colorName of PINS) {
+    off(PINS[colorName]);
+  };
+
+  if (!blink) {
+    on(pin);
+    return;
+  }
+
+  curBlinkValue = false;
+  blinkHandle = setInterval(async ()=> {
+    curBlinkValue = !curBlinkValue;
+    await gpiop.write(pin, curBlinkValue);
+  }, BLINK_INTERVAL);
 };
 
 // /**
@@ -113,5 +154,3 @@ export const off = async (pin) => {
 //     }
 //   })
 // }
-
-setup();
