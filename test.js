@@ -14,8 +14,8 @@ async function main() {
       setTimeout(async () => {
         await GpioManager.setStatus('green', true);
         console.log('green blinking....');
-      });
-    });
+      }, 5000);
+    }, 5000);
   } catch (error) {
     console.error("main failed", error);
   }

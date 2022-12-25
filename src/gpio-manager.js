@@ -24,8 +24,8 @@ export let blinkHandle;
 
 export const setup = async () => {
   await gpiop.setup(PIN_RED, gpiop.DIR_LOW);
+  await gpiop.setup(PIN_ORANGE, gpiop.DIR_LOW);
   await gpiop.setup(PIN_GREEN, gpiop.DIR_LOW);
-  await gpiop.setup(PIN_BLUE, gpiop.DIR_LOW);
   console.log("setup: done");
 };
 
@@ -55,7 +55,7 @@ export const setStatus = async (color, blink) => {
   blinkHandle = undefined;
 
   //turn off all leds
-  for (const colorName of PINS) {
+  for (const colorName in PINS) {
     off(PINS[colorName]);
   };
 
