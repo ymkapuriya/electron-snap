@@ -1,30 +1,63 @@
 import * as GpioManager from "./src/gpio-manager.js";
 
+const conditions = [
+  {
+    status: GpioManager.NetworkStatus.NO_CONNECTION,
+    vidoesPending: true,
+  },
+  {
+    status: GpioManager.NetworkStatus.NO_CONNECTION,
+    vidoesPending: false,
+  },
+  {
+    status: GpioManager.NetworkStatus.NO_INTERNET,
+    vidoesPending: true,
+  },
+  {
+    status: GpioManager.NetworkStatus.NO_INTERNET,
+    vidoesPending: false,
+  },
+  {
+    status: GpioManager.NetworkStatus.CONNECTED,
+    vidoesPending: true,
+  },
+  {
+    status: GpioManager.NetworkStatus.CONNECTED,
+    vidoesPending: false,
+  },
+];
+
+let nextCondition = 0;
+
 async function main() {
-  try {
-    await GpioManager.setup();
-    // await GpioManager.on(GpioManager.PIN_RED);
-    // await GpioManager.on(GpioManager.PIN_BLUE);
-    // await GpioManager.on(GpioManager.PIN_GREEN);
-    await GpioManager.setStatus('red', true);
-    console.log('red blinking....');
-    setTimeout(async ()=> {
-      await GpioManager.setStatus('orange', true);
-      console.log('orange blinking....');
-      setTimeout(async () => {
-        await GpioManager.setStatus('green', true);
-        console.log('green blinking....');
-      }, 5000);
-    }, 5000);
-  } catch (error) {
-    console.error("main failed", error);
-  }
+  setInterval(async () => {
+    const condition = conditions[nextCondition];
+    await GpioManager.setStatus(condition.status, condition.vidoesPending);
+    console.log('condition applied', condition);
+    nextCondition += 1;
+    if (nextCondition >= 6) {
+      nextCondition = 0;
+    }
+  }, 5000);
+
   // try {
-  //   const profiles = await NetworkManager.getConnectionProfiles();
-  //   console.log(profiles);
+  //   await GpioManager.setStatus(GpioManager.NetworkStatus.NO_CONNECTION, true);
+  //   console.log("red blinking....");
+  //   setTimeout(async () => {
+  //     await GpioManager.setStatus(
+  //       GpioManager.NetworkStatus.NO_CONNECTION,
+  //       true
+  //     );
+  //     console.log("orange blinking....");
+  //     setTimeout(async () => {
+  //       await GpioManager.setStatus("green", true);
+  //       console.log("green blinking....");
+  //     }, 5000);
+  //   }, 5000);
   // } catch (error) {
-  //   console.error(object);
+  //   console.error("main failed", error);
   // }
+
 }
 
 main();

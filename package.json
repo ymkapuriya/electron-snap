@@ -26,9 +26,8 @@
     "electron-builder": "^23.6.0"
   },
   "dependencies": {
-    "node-network-manager": "^1.0.10",
-    "rpi-gpio": "^2.1.7",
-    "wireless-tools": "https://github.com/ymkapuriya/wireless-tools"
+    "lodash": "^4.17.21",
+    "rpi-gpio": "^2.1.7"
   },
   "build": {
     "appId": "com.example.app",
