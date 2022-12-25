@@ -1,16 +1,12 @@
-const { NetworkManager } = require("./src/NetworkManager")
-const { GpioManager } = require("./src/GpioManager")
-
-const PIN_RED = 36
-const PIN_GREEN = 38
-const PIN_BLUE = 40
+import * as GpioManager from "./src/gpio-manager";
 
 async function main() {
-  console.log(GpioManager);
   try {
-    await GpioManager.on(12)
+    await GpioManager.on(GpioManager.PIN_RED);
+    await GpioManager.on(GpioManager.PIN_BLUE);
+    await GpioManager.on(GpioManager.PIN_GREEN);
   } catch (error) {
-    console.error(error)
+    console.error("main falied", error);
   }
   // try {
   //   const profiles = await NetworkManager.getConnectionProfiles();
