@@ -1,6 +1,5 @@
 import GPIO from "rpi-gpio";
-import { once } from "lodash";
-
+import { once } from "lodash-es";
 const gpiop = GPIO.promise;
 
 const PIN_RED = 36;
