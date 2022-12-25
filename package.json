@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build",
-    "dist": "electron-builder --linux snap"
+    "dist": "electron-builder --linux snap",
+    "test": "node test.js"
   },
   "repository": "https://github.com/ymkapuriya/electron-snap",
   "keywords": [
@@ -24,6 +25,8 @@
     "electron-builder": "^23.6.0"
   },
   "dependencies": {
+    "node-network-manager": "^1.0.10",
+    "rpi-gpio": "^2.1.7",
     "wireless-tools": "https://github.com/ymkapuriya/wireless-tools"
   },
   "build": {
