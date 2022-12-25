@@ -3,13 +3,13 @@ import { once } from "lodash-es";
 const gpiop = GPIO.promise;
 
 const PIN_RED = 36;
-const PIN_ORANGE = 38;
+const PIN_BLUE = 38;
 const PIN_GREEN = 40;
 
 //Holds pin number by color
 const PINS = {
-  red: PIN_RED,
-  orange: PIN_ORANGE,
+  red: [PIN_RED],
+  orange: [PIN_RED, PIN_GREEN],
   green: PIN_GREEN,
 };
 
@@ -25,7 +25,7 @@ let blinkHandle;
 
 const setup = once(async () => {
   await gpiop.setup(PIN_RED, gpiop.DIR_LOW);
-  await gpiop.setup(PIN_ORANGE, gpiop.DIR_LOW);
+  await gpiop.setup(PIN_BLUE, gpiop.DIR_LOW);
   await gpiop.setup(PIN_GREEN, gpiop.DIR_LOW);
   console.info("networkd-status-indicator: setup done");
 });
@@ -43,10 +43,23 @@ const off = async (pin) => {
   await gpiop.write(pin, false);
 };
 
+const showColor = async (color) => {
+  const pins = PINS[color];
+  const promises = pins.map((pin) => on(pin));
+  return Promise.all(promises);
+}
+
+const offAll = async() => {
+  //turn off all leds
+  for (const colorName in PINS) {
+    await off(PINS[colorName]);
+  }
+}
+
 const setLEDStatus = async (color, blink) => {
   await setup();
-  const pin = PINS[color];
-  if (!pin) {
+  const pins = PINS[color];
+  if (!pins) {
     throw new Error("Invalid color. No pin defined for this color");
   }
 
@@ -54,20 +67,18 @@ const setLEDStatus = async (color, blink) => {
   blinkHandle && clearInterval(blinkHandle);
   blinkHandle = undefined;
 
-  //turn off all leds
-  for (const colorName in PINS) {
-    off(PINS[colorName]);
-  }
+  await offAll();
 
   if (!blink) {
-    on(pin);
+    await showColor(color);
     return;
   }
 
   curBlinkValue = false;
   blinkHandle = setInterval(async () => {
     curBlinkValue = !curBlinkValue;
-    await gpiop.write(pin, curBlinkValue);
+    curBlinkValue ? await showColor(color) : offAll();
+    // await gpiop.write(pin, curBlinkValue);
   }, BLINK_INTERVAL);
 };
 
