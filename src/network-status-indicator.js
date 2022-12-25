@@ -10,7 +10,7 @@ const PIN_GREEN = 40;
 const PINS = {
   red: [PIN_RED],
   orange: [PIN_RED, PIN_GREEN],
-  green: PIN_GREEN,
+  green: [PIN_GREEN],
 };
 
 const BLINK_INTERVAL = 200; //in ms
