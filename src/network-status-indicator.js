@@ -9,7 +9,7 @@ const PIN_GREEN = 40;
 //Holds pin number by color
 const PINS = {
   red: [PIN_RED],
-  orange: [PIN_RED, PIN_GREEN],
+  orange: [PIN_RED, PIN_BLUE],
   green: [PIN_GREEN],
 };
 
