@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An Electron Snap",
   "main": "main.js",
+  "type": "module",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build",
