@@ -13,7 +13,7 @@ const PINS = {
   green: PIN_GREEN,
 };
 
-const BLINK_INTERVAL = 300; //in ms
+const BLINK_INTERVAL = 200; //in ms
 
 /**
  * Holds value (true or false) which was last applied during blink cycle.
@@ -74,9 +74,9 @@ const setLEDStatus = async (color, blink) => {
 };
 
 export const NetworkStatus = {
-  NO_CONNECTION,
-  NO_INTERNET,
-  CONNECTED,
+  NO_CONNECTION: 'NO_CONNECTION',
+  NO_INTERNET: 'NO_INTERNET',
+  CONNECTED: 'CONNECTED',
 };
 
 const networkStatusWiseColors = {
@@ -86,5 +86,5 @@ const networkStatusWiseColors = {
 };
 
 export const setStatus = async (networkStatus, pendingVideos) => {
-  await setLEDStatus(networkStatusWiseColors(networkStatus), pendingVideos);
+  await setLEDStatus(networkStatusWiseColors[networkStatus], pendingVideos);
 };
