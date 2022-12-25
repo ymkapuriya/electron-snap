@@ -50,10 +50,9 @@ const showColor = async (color) => {
 }
 
 const offAll = async() => {
-  //turn off all leds
-  for (const colorName in PINS) {
-    await off(PINS[colorName]);
-  }
+  await off(PIN_RED);
+  await off(PIN_GREEN);
+  await off(PIN_BLUE);
 }
 
 const setLEDStatus = async (color, blink) => {
