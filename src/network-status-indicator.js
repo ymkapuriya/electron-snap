@@ -27,7 +27,7 @@ const setup = once(async () => {
   await gpiop.setup(PIN_RED, gpiop.DIR_LOW);
   await gpiop.setup(PIN_ORANGE, gpiop.DIR_LOW);
   await gpiop.setup(PIN_GREEN, gpiop.DIR_LOW);
-  console.log("setup: done");
+  console.info("networkd-status-indicator: setup done");
 });
 
 /**
@@ -37,12 +37,10 @@ const setup = once(async () => {
  */
 const on = async (pin) => {
   await gpiop.write(pin, true);
-  console.log(`on: done. pin=${pin}`);
 };
 
 const off = async (pin) => {
   await gpiop.write(pin, false);
-  console.log(`off: done. pin=${pin}`);
 };
 
 const setLEDStatus = async (color, blink) => {
@@ -86,5 +84,6 @@ const networkStatusWiseColors = {
 };
 
 export const setStatus = async (networkStatus, pendingVideos) => {
+  console.info(`network-status-indicator: changing status=${networkStatus}, pendingVideos=${pendingVideos}`);
   await setLEDStatus(networkStatusWiseColors[networkStatus], pendingVideos);
 };
