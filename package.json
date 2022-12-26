@@ -1,6 +1,6 @@
 {
-  "name": "electron-snap",
-  "version": "1.0.0",
+  "name": "ymk-electron-snap",
+  "version": "1.0.3",
   "description": "An Electron Snap",
   "main": "main.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "dependencies": {},
   "build": {
     "appId": "com.example.app",
-    "productName": "ws-snap",
+    "productName": "ymk-electron-snap",
     "linux": {
       "target": "snap"
     },
