@@ -2,8 +2,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
-const { WirelessTools } = require('./src/wireless-tools')
-const { Wifi } = require('./src/wifi')
 const { exec } = require("child_process");
 
 
@@ -27,9 +25,6 @@ function createWindow() {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  ipcMain.handle('toMain', async function toMain(_event, data) {
-    console.log('data', data);
-  })
 }
 
 // This method will be called when Electron has finished
@@ -44,19 +39,9 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 
-  ipcMain.handle('scan-networks', async (_event, data) => {
-    const iface = await WirelessTools.getWirelessInterface()
-    console.log("Main : ", iface);
-    return iface
-  })
-
-  ipcMain.handle('list-networks', async (_event, data) => {
-    try {
-      const networks = await Wifi(data)
-      console.log("main networkds", networks);
-    } catch (error) {
-      console.error("main error", error)
-    }
+  ipcMain.handle('say-hi', (_event, data) => {
+    console.log('Main :', data);
+    return "Hello"
   })
 
   ipcMain.handle('run-command', async (_event, data) => {
