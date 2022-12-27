@@ -7,9 +7,10 @@
     "start": "electron .",
     "build": "electron-builder build",
     "dist": "electron-builder --linux snap",
-    "test": "node test.js"
+    "test": "node test.js",
+    "release": "electron-builder"
   },
-  "repository": "https://github.com/ymkapuriya/electron-snap",
+  "repository": "https://github.com/ymkapuriya/electron-snap.git",
   "keywords": [
     "Electron",
     "quick",
@@ -29,7 +30,10 @@
     "appId": "com.example.app",
     "productName": "ymk-electron-snap",
     "linux": {
-      "target": "snap"
+      "target": "dir",
+      "publish": [
+        "github"
+      ]
     },
     "snap": {
       "plugs": [
@@ -46,5 +50,14 @@
         "opengl"
       ]
     }
+  },
+  "publish": {
+    "provider": "github",
+    "repo": "https://github.com/ymkapuriya/electron-snap.git",
+    "owner": "Yogesh Kapuriya",
+    "vPrefixedTagName": true,
+    "private": true,
+    "channel": "latest",
+    "releaseType": "draft"
   }
 }
