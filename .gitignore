@@ -1,2 +1,8 @@
 node_modules
-dist
+.env
+
+dist/*
+!dist/linux-unpacked/
+dist/linux-unpacked/*
+!dist/linux-unpacked/resources
+!dist/linux-unpacked/resources/app.asar
